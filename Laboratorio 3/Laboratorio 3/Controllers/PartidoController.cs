@@ -14,7 +14,7 @@ namespace Laboratorio_3.Controllers
         // GET: Partido
         public ActionResult IndexPartido()
         {
-            return View();
+            return View(Data.Instance.listaPartidos);
         }
 
         // GET: Partido/Details/5
@@ -105,8 +105,8 @@ namespace Laboratorio_3.Controllers
                 if (file.ContentLength > 0)
                 {
                     var json = new JsonConverter<Partido>();
-                    BinaryTreeNode<Partido> raiz = json.datosJson(file.InputStream);
-                    Data.Instance.partidosAVL.Root = raiz;
+                    List<Partido> listapartidos = json.datosJson(file.InputStream);
+                    //Data.Instance.partidosAVL.Insert = listapartidos[cont];
                     Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
                     return RedirectToAction("IndexPartido");
                 }

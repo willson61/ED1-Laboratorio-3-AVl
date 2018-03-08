@@ -23,7 +23,16 @@ namespace Laboratorio_3.Models
 
         public int CompareTo(object obj)
         {
+
             return noPartido.CompareTo(obj);
+        }
+        public int compareByNoPartido(object obj)
+        {
+            return noPartido.CompareTo(obj);
+        }
+        public int compareByFechaPartido(object obj)
+        {
+            return fechaPartido.CompareTo(obj);
         }
     }
 }
