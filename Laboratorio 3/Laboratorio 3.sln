@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratorio 3", "Laboratorio 3\Laboratorio 3.csproj", "{120A7463-939E-4F01-ADD9-4D98224C3CD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstructurasDeDatos", "EstructurasDeDatos\EstructurasDeDatos.csproj", "{98283D3A-5AFB-4EDD-8674-EEDDFF3E42EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{120A7463-939E-4F01-ADD9-4D98224C3CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120A7463-939E-4F01-ADD9-4D98224C3CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120A7463-939E-4F01-ADD9-4D98224C3CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120A7463-939E-4F01-ADD9-4D98224C3CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98283D3A-5AFB-4EDD-8674-EEDDFF3E42EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98283D3A-5AFB-4EDD-8674-EEDDFF3E42EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98283D3A-5AFB-4EDD-8674-EEDDFF3E42EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98283D3A-5AFB-4EDD-8674-EEDDFF3E42EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F933C419-FDD1-491A-B551-93A63567001D}
+	EndGlobalSection
+EndGlobal
