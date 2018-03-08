@@ -59,7 +59,7 @@ namespace EstructurasDeDatos
 
 
     }
-    class TreeAVL<T> where T: IComparable
+    public class TreeAVL<T> where T: IComparable
     {
         public BinaryTreeNode<T> Root { get; set; }
 

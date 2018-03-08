@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Laboratorio_3.Models.Partido>
+
+@{
+    ViewBag.Title = "IndexPartido";
+}
+
+<h2>IndexPartido</h2>
+
+<p>
+
+    @Html.ActionLink("Upload Json File", "UploadPartido")
+
+    @Html.ActionLink("Agregar Nuevo Partido ", "AddPais")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaPartido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grupo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pais1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pais2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estadio)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaPartido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grupo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pais1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pais2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estadio)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.noPartido }) |
+            @Html.ActionLink("Details", "Details", new { id=item.noPartido }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.noPartido })
+        </td>
+    </tr>
+}
+
+</table>

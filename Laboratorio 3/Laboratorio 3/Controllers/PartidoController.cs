@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EstructurasDeDatos;
+using Laboratorio_3.Clases;
+using Laboratorio_3.Models;
 
 namespace Laboratorio_3.Controllers
 {
     public class PartidoController : Controller
     {
         // GET: Partido
-        public ActionResult Index()
+        public ActionResult IndexPartido()
         {
             return View();
         }
@@ -84,6 +87,35 @@ namespace Laboratorio_3.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult UploadPartido()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadPartido(HttpPostedFileBase file)
+        {
+            try
+            {
+                if (!file.FileName.EndsWith(".json"))
+                    return View();
+                if (file.ContentLength > 0)
+                {
+                    var json = new JsonConverter<Partido>();
+                    BinaryTreeNode<Partido> raiz = json.datosJson(file.InputStream);
+                    Data.Instance.partidosAVL.Root = raiz;
+                    Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
+                    return RedirectToAction("IndexPartido");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View();
         }
     }
 }
