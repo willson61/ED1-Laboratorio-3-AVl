@@ -115,7 +115,7 @@ namespace Laboratorio_3.Controllers
                         Data.Instance.partidosAVL.Insert(p);
                     }
                     Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
-                    return RedirectToAction("IndexPais");
+                    return RedirectToAction("IndexPartido");
                 }
             }
             catch (Exception ex)
