@@ -61,6 +61,8 @@ namespace EstructurasDeDatos
     }
     public class TreeAVL<T> where T: IComparable
     {
+        public bool dateOrNumber;
+
         public BinaryTreeNode<T> Root { get; set; }
 
         public TreeAVL() { Root = null; }

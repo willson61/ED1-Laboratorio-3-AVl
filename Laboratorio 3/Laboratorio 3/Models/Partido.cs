@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Laboratorio_3.Clases;
 
 namespace Laboratorio_3.Models
 {
@@ -23,8 +24,14 @@ namespace Laboratorio_3.Models
 
         public int CompareTo(object obj)
         {
-
-            return noPartido.CompareTo(obj);
+            if(Data.Instance.partidosAVL.dateOrNumber == true)
+            {
+                return noPartido.CompareTo(obj);
+            }
+            else
+            {
+                return fechaPartido.CompareTo(obj);
+            }
         }
         public int compareByNoPartido(object obj)
         {

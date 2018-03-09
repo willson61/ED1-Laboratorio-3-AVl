@@ -14,7 +14,7 @@ namespace Laboratorio_3.Controllers
         // GET: Partido
         public ActionResult IndexPartido()
         {
-            return View(Data.Instance.listaPartidos);
+            return View();
         }
 
         // GET: Partido/Details/5
@@ -98,6 +98,8 @@ namespace Laboratorio_3.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UploadPartido(HttpPostedFileBase file)
         {
+            TreeAVL<Partido> temp = new TreeAVL<Partido>();
+            List<Partido> tempL = new List<Partido>();
             try
             {
                 if (!file.FileName.EndsWith(".json"))
@@ -105,10 +107,15 @@ namespace Laboratorio_3.Controllers
                 if (file.ContentLength > 0)
                 {
                     var json = new JsonConverter<Partido>();
-                    List<Partido> listapartidos = json.datosJson(file.InputStream);
-                    //Data.Instance.partidosAVL.Insert = listapartidos[cont];
+                    BinaryTreeNode<Partido> raiz = json.datosJson(file.InputStream);
+                    temp.Root = raiz;
+                    tempL = temp.Orders("PreOrder");
+                    foreach(Partido p in tempL)
+                    {
+                        Data.Instance.partidosAVL.Insert(p);
+                    }
                     Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
-                    return RedirectToAction("IndexPartido");
+                    return RedirectToAction("IndexPais");
                 }
             }
             catch (Exception ex)
