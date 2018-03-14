@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace EstructurasDeDatos
 {
-    public class BinaryTreeNode<T>
+    public class AVLTreeNode<T>
     {
         public T Value { get; set; }
-        public BinaryTreeNode<T> Left { get; set; }
-        public BinaryTreeNode<T> Right { get; set; }
+        public AVLTreeNode<T> Left { get; set; }
+        public AVLTreeNode<T> Right { get; set; }
+        public AVLTreeNode<T> Padre { get; set; }
         public int LeftSize { get; set; }
         public int RightSize { get; set; }
 
-        public BinaryTreeNode(T value, BinaryTreeNode<T> left, BinaryTreeNode<T> right, int leftSize, int rightSize)
+        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, AVLTreeNode<T> padre)
         {
             Value = value;
             Left = left;
             Right = right;
-            LeftSize = leftSize;
-            RightSize = rightSize;
+            Padre = padre;
         }
 
-        public BinaryTreeNode(T value) : this(value, null, null, 0, 0) { }
+        public AVLTreeNode(T value) : this(value, null, null, null) { }
 
-        public BinaryTreeNode() { }
+        public AVLTreeNode() { }
 
         public bool IsLeaf() { return Left == null && Right == null; }
 
@@ -59,15 +59,17 @@ namespace EstructurasDeDatos
 
 
     }
+
+
     class TreeAVL<T> where T: IComparable
     {
-        public BinaryTreeNode<T> Root { get; set; }
+        public AVLTreeNode<T> Root { get; set; }
 
         public TreeAVL() { Root = null; }
 
         public void Insert(T value)
         {
-            BinaryTreeNode<T> NewNode = new BinaryTreeNode<T>(value);
+            AVLTreeNode<T> NewNode = new AVLTreeNode<T>(value);
             if (Root == null)
             {
                 Root = NewNode;
@@ -78,7 +80,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void InsertarHijo(BinaryTreeNode<T> nNuevo, BinaryTreeNode<T> nPadre)
+        private void InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
         {
             if (nPadre != null)
             {
@@ -110,10 +112,10 @@ namespace EstructurasDeDatos
             }
         }
 
-        public BinaryTreeNode<T> Eliminar(T valor)
+        public AVLTreeNode<T> Eliminar(T valor)
         {
-            BinaryTreeNode<T> nAux = Root;
-            BinaryTreeNode<T> nPadre = Root;
+            AVLTreeNode<T> nAux = Root;
+            AVLTreeNode<T> nPadre = Root;
             bool isLeftLeaf = true;
 
             while (nAux.Value.CompareTo(valor) != 0)
@@ -181,7 +183,7 @@ namespace EstructurasDeDatos
             }
             else
             {
-                BinaryTreeNode<T> nReplace = Replace(nAux);
+                AVLTreeNode<T> nReplace = Replace(nAux);
                 if (nAux == Root)
                 {
                     Root = nReplace;
@@ -200,10 +202,10 @@ namespace EstructurasDeDatos
             return nAux;
         }
 
-        public BinaryTreeNode<T> Edit(T valor)
+        public AVLTreeNode<T> Edit(T valor)
         {
-            BinaryTreeNode<T> nAux = Root;
-            BinaryTreeNode<T> nPadre = Root;
+            AVLTreeNode<T> nAux = Root;
+            AVLTreeNode<T> nPadre = Root;
             bool isLeftLeaf = true;
 
             while (nAux.Value.CompareTo(valor) != 0)
@@ -224,7 +226,7 @@ namespace EstructurasDeDatos
                     return null;
             }
 
-            BinaryTreeNode<T> nReplace = Replace(nAux);
+            AVLTreeNode<T> nReplace = Replace(nAux);
             if (nAux == Root)
             {
                 Root = nReplace;
@@ -243,11 +245,11 @@ namespace EstructurasDeDatos
 
         }
 
-        private BinaryTreeNode<T> Replace(BinaryTreeNode<T> nElimina)
+        private AVLTreeNode<T> Replace(AVLTreeNode<T> nElimina)
         {
-            BinaryTreeNode<T> rPadre = nElimina;
-            BinaryTreeNode<T> rReplace = nElimina;
-            BinaryTreeNode<T> Aux = nElimina.Right;
+            AVLTreeNode<T> rPadre = nElimina;
+            AVLTreeNode<T> rReplace = nElimina;
+            AVLTreeNode<T> Aux = nElimina.Right;
             while (Aux != null)
             {
                 rPadre = rReplace;
@@ -262,9 +264,9 @@ namespace EstructurasDeDatos
             return rReplace;
         }
 
-        public BinaryTreeNode<T> Find(T value)
+        public AVLTreeNode<T> Find(T value)
         {
-            BinaryTreeNode<T> Aux = Root;
+            AVLTreeNode<T> Aux = Root;
             while (Aux.Value.CompareTo(value) != 0)
             {
                 if (value.CompareTo(Aux.Value) < 0)
@@ -316,17 +318,17 @@ namespace EstructurasDeDatos
             }
         }
 
-        public bool IsBalanced(BinaryTreeNode<T> Node)
+        public bool IsBalanced(AVLTreeNode<T> Node)
         {
             bool Valor;
             if (Node.Left == null && Node.Right != null)
             {
-                Valor = this.IsBalanced(Node.Right) && (AbsoluteValue(0, GetHeight(Node.Right)) <= 1);
+                Valor = this.IsBalanced(Node.Right) && ((Math.Abs(0-GetHeight(Node.Right))) <= 1);
                 return Valor;
             }
             else if (Node.Right == null && Node.Left != null)
             {
-                Valor = this.IsBalanced(Node.Left) && (AbsoluteValue(GetHeight(Node.Left), 0) <= 1);
+                Valor = this.IsBalanced(Node.Left) && ((Math.Abs(GetHeight(Node.Left)-0)) <= 1);
                 return Valor;
             }
             else if (Node.Left == null && Node.Right == null)
@@ -335,21 +337,21 @@ namespace EstructurasDeDatos
             }
             else
             {
-                Valor = this.IsBalanced(Node.Left) && this.IsBalanced(Node.Right) && (AbsoluteValue(GetHeight(Node.Left), GetHeight(Node.Right)) <= 1);
+                Valor = this.IsBalanced(Node.Left) && this.IsBalanced(Node.Right) && ((Math.Abs(GetHeight(Node.Left)-GetHeight(Node.Right))) <= 1);
                 return Valor;
             }
         }
 
-        public BinaryTreeNode<T> FindUnbalancedNode()
+        public AVLTreeNode<T> FindUnbalancedNode()
         {
             return FindUnbalancedNode(Root);
         }
 
-        private BinaryTreeNode<T> FindUnbalancedNode(BinaryTreeNode<T> Node)
+        private AVLTreeNode<T> FindUnbalancedNode(AVLTreeNode<T> Node)
         {
             if (Node != null)
             {
-                int Balance = AbsoluteValue(GetHeight(Node.Left), GetHeight(Node.Right));
+                int Balance = Math.Abs(GetHeight(Node.Left)-GetHeight(Node.Right));
                 if (Balance <= 1)
                 {
                     if (Node.Left != null)
@@ -373,7 +375,7 @@ namespace EstructurasDeDatos
 
         }
 
-        public int GetHeight(BinaryTreeNode<T> Node)
+        public int GetHeight(AVLTreeNode<T> Node)
         {
             if (Node == null)
             {
@@ -395,7 +397,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void InOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        private void InOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -405,7 +407,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void PostOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        private void PostOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -415,7 +417,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void PreOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        private void PreOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -442,5 +444,7 @@ namespace EstructurasDeDatos
             }
             return Elements;
         }
+
+
     }
 }
