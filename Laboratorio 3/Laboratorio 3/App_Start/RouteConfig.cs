@@ -16,7 +16,7 @@ namespace Laboratorio_3
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Partido", action = "Home", id = UrlParameter.Optional }
             );
         }
     }

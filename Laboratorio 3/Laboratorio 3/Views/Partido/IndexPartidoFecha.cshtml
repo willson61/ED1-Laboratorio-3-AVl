@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Upload Json File", "UploadPartido")
 
-    @Html.ActionLink("Agregar Nuevo Partido ", "AddPais")
+    @Html.ActionLink("Agregar Nuevo Partido ", "CreateFechaPartido")
 </p>
 <table class="table">
     <tr>
@@ -31,7 +31,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.fechaPartido)
@@ -50,7 +50,7 @@
         </td>
         <td>
             @Html.ActionLink("Details", "DetailsPartidoFecha", new { id=item.noPartido }) |
-            @Html.ActionLink("Delete", "DeletePartidoFecha", new { id=item.noPartido })
+            @Html.ActionLink("Delete", "DeleteFechaPartido", new { id=item.noPartido })
         </td>
     </tr>
 }

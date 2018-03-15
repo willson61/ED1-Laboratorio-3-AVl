@@ -20,13 +20,13 @@ namespace Laboratorio_3.Controllers
         // GET: Partido
         public ActionResult IndexPartido()
         {
-            return View();
+            return View(Data.Instance.listaPartidos);
         }
 
         // GET: Partido
         public ActionResult IndexPartidoFecha()
         {
-            return View();
+            return View(Data.Instance.listaPartidos);
         }
 
         // GET: Partido/Details/5
