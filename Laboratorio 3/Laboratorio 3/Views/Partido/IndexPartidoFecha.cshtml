@@ -4,10 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>IndexPartido</h2>
+<h2>IndexPartidoFecha</h2>
 
 <p>
-
     @Html.ActionLink("Upload Json File", "UploadPartido")
 
     @Html.ActionLink("Agregar Nuevo Partido ", "AddPais")
@@ -50,8 +49,8 @@
             @Html.DisplayFor(modelItem => item.estadio)
         </td>
         <td>
-            @Html.ActionLink("Details", "DetailsPartido", new { id=item.noPartido }) |
-            @Html.ActionLink("Delete", "DeletePartido", new { id=item.noPartido })
+            @Html.ActionLink("Details", "DetailsPartidoFecha", new { id=item.noPartido }) |
+            @Html.ActionLink("Delete", "DeletePartidoFecha", new { id=item.noPartido })
         </td>
     </tr>
 }

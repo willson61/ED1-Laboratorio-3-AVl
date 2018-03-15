@@ -1,0 +1,57 @@
+﻿@model Laboratorio_3.Models.Partido
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>DetailsPartido</h2>
+
+<div>
+    <h4>Partido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaPartido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaPartido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pais1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pais1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pais2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pais2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estadio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "IndexPartido")
+</p>

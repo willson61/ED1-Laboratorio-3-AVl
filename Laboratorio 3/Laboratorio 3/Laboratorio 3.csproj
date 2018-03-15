@@ -192,9 +192,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Partido\IndexPartido.cshtml" />
     <Content Include="Views\Partido\UploadPartido.cshtml" />
+    <Content Include="Views\Partido\IndexPartidoFecha.cshtml" />
+    <Content Include="Views\Partido\DetailsPartido.cshtml" />
+    <Content Include="Views\Partido\DetailsPartidoFecha.cshtml" />
+    <Content Include="Views\Partido\CreateFechaPartido.cshtml" />
+    <Content Include="Views\Partido\CreateNoPartido.cshtml" />
+    <Content Include="Views\Partido\DeleteFechaPartido.cshtml" />
+    <Content Include="Views\Partido\DeletePartido.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Log\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
