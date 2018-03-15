@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace EstructurasDeDatos
 {
-    public class BinaryTreeNode<T>
+    public class AVLTreeNode<T>
     {
         public T Value { get; set; }
-        public BinaryTreeNode<T> Left { get; set; }
-        public BinaryTreeNode<T> Right { get; set; }
+        public AVLTreeNode<T> Left { get; set; }
+        public AVLTreeNode<T> Right { get; set; }
         public int LeftSize { get; set; }
         public int RightSize { get; set; }
 
-        public BinaryTreeNode(T value, BinaryTreeNode<T> left, BinaryTreeNode<T> right, int leftSize, int rightSize)
+        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, int leftSize, int rightSize)
         {
             Value = value;
             Left = left;
@@ -23,9 +23,9 @@ namespace EstructurasDeDatos
             RightSize = rightSize;
         }
 
-        public BinaryTreeNode(T value) : this(value, null, null, 0, 0) { }
+        public AVLTreeNode(T value) : this(value, null, null, 0, 0) { }
 
-        public BinaryTreeNode() { }
+        public AVLTreeNode() { }
 
         public bool IsLeaf() { return Left == null && Right == null; }
 
@@ -57,19 +57,21 @@ namespace EstructurasDeDatos
             }
         }
 
-
     }
-    public class TreeAVL<T> where T: IComparable
+
+    public class TreeAVL<T> where T : IComparable
     {
         public bool dateOrNumber;
 
-        public BinaryTreeNode<T> Root { get; set; }
+        public AVLTreeNode<T> Root { get; set; }
 
         public TreeAVL() { Root = null; }
 
+        #region MainAVLMethods
+
         public void Insert(T value)
         {
-            BinaryTreeNode<T> NewNode = new BinaryTreeNode<T>(value);
+            AVLTreeNode<T> NewNode = new AVLTreeNode<T>(value);
             if (Root == null)
             {
                 Root = NewNode;
@@ -80,7 +82,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void InsertarHijo(BinaryTreeNode<T> nNuevo, BinaryTreeNode<T> nPadre)
+        private AVLTreeNode<T> InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
         {
             if (nPadre != null)
             {
@@ -89,10 +91,11 @@ namespace EstructurasDeDatos
                     if (nPadre.Left == null)
                     {
                         nPadre.Left = nNuevo;
+                        return InsertBalance(nPadre);
                     }
                     else
                     {
-                        InsertarHijo(nNuevo, nPadre.Left);
+                        return InsertarHijo(nNuevo, nPadre.Left);
                     }
                 }
                 else
@@ -102,110 +105,95 @@ namespace EstructurasDeDatos
                         if (nPadre.Right == null)
                         {
                             nPadre.Right = nNuevo;
+                            return InsertBalance(nPadre);
                         }
                         else
                         {
-                            InsertarHijo(nNuevo, nPadre.Right);
+                            return InsertarHijo(nNuevo, nPadre.Right);
                         }
                     }
                 }
             }
+            return nPadre;
         }
 
-        public BinaryTreeNode<T> Eliminar(T valor)
+        private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)
         {
-            BinaryTreeNode<T> nAux = Root;
-            BinaryTreeNode<T> nPadre = Root;
-            bool isLeftLeaf = true;
+            AVLTreeNode<T> Aux = Node;
 
-            while (nAux.Value.CompareTo(valor) != 0)
+            while (Aux.Left != null)
             {
-                nPadre = nAux;
-                if (valor.CompareTo(nAux.Value) <= 0)
+                Aux = Aux.Left;
+            }
+
+            return Aux;
+        }
+
+        public AVLTreeNode<T> Eliminar(T valor)
+        {
+            AVLTreeNode<T> root = Root;
+            AVLTreeNode<T> nPadre = Root;
+
+            while (root.Value.CompareTo(valor) != 0)
+            {
+                nPadre = root;
+                if (valor.CompareTo(root.Value) <= 0)
                 {
-                    isLeftLeaf = true;
-                    nAux = nAux.Left;
+                    root = root.Left;
                 }
                 else
                 {
-                    isLeftLeaf = false;
-                    nAux = nAux.Left;
+                    root = root.Left;
                 }
 
-                if (nAux == null)
+                if (root == null)
                     return null;
             }
 
-            if (nAux.Left == null && nAux.Right == null)
+            if (root.Left == null || root.Right == null)
             {
-                if (nAux == Root)
+                AVLTreeNode<T> Aux;
+                if (root.Left != null)
                 {
-                    Root = null;
-                }
-                else if (isLeftLeaf)
-                {
-                    nPadre.Left = null;
+                    Aux = root.Left;
                 }
                 else
                 {
-                    nPadre.Right = null;
+                    Aux = root.Right;
                 }
-            }
-            else if (nAux.Right == null)
-            {
-                if (nAux == Root)
+
+                if (Aux == null) //Sin hijos
                 {
-                    Root = nAux.Left;
+                    Aux = root;
+                    root = null;
                 }
-                else if (isLeftLeaf)
+                else            //Un solo hijo
                 {
-                    nPadre.Left = nAux.Left;
-                }
-                else
-                {
-                    nPadre.Right = nAux.Left;
-                }
-            }
-            else if (nAux.Left == null)
-            {
-                if (nAux == Root)
-                {
-                    Root = nAux.Right;
-                }
-                else if (isLeftLeaf)
-                {
-                    nPadre.Left = nAux.Right;
-                }
-                else
-                {
-                    nPadre.Right = nAux.Right;
+                    root = Aux;
                 }
             }
             else
             {
-                BinaryTreeNode<T> nReplace = Replace(nAux);
-                if (nAux == Root)
-                {
-                    Root = nReplace;
-                }
-                else if (isLeftLeaf)
-                {
-                    nPadre.Left = nReplace;
-                }
-                else
-                {
-                    nPadre.Right = nReplace;
-                }
-                nReplace.Left = nAux.Left;
+                // El más a la izquierda del subarbol derecho
+                AVLTreeNode<T> Aux = MinNode(root.Right);
+                root = Aux;
+                root.Right = Eliminar(root.Right.Value);
             }
 
-            return nAux;
+            if (root == null)
+            {
+                return root;
+            }
+
+            DeleteBalance(root);
+
+            return root;
         }
 
-        public BinaryTreeNode<T> Edit(T valor)
+        public AVLTreeNode<T> Edit(T valor)
         {
-            BinaryTreeNode<T> nAux = Root;
-            BinaryTreeNode<T> nPadre = Root;
+            AVLTreeNode<T> nAux = Root;
+            AVLTreeNode<T> nPadre = Root;
             bool isLeftLeaf = true;
 
             while (nAux.Value.CompareTo(valor) != 0)
@@ -226,7 +214,7 @@ namespace EstructurasDeDatos
                     return null;
             }
 
-            BinaryTreeNode<T> nReplace = Replace(nAux);
+            AVLTreeNode<T> nReplace = Replace(nAux);
             if (nAux == Root)
             {
                 Root = nReplace;
@@ -245,11 +233,11 @@ namespace EstructurasDeDatos
 
         }
 
-        private BinaryTreeNode<T> Replace(BinaryTreeNode<T> nElimina)
+        private AVLTreeNode<T> Replace(AVLTreeNode<T> nElimina)
         {
-            BinaryTreeNode<T> rPadre = nElimina;
-            BinaryTreeNode<T> rReplace = nElimina;
-            BinaryTreeNode<T> Aux = nElimina.Right;
+            AVLTreeNode<T> rPadre = nElimina;
+            AVLTreeNode<T> rReplace = nElimina;
+            AVLTreeNode<T> Aux = nElimina.Right;
             while (Aux != null)
             {
                 rPadre = rReplace;
@@ -264,9 +252,9 @@ namespace EstructurasDeDatos
             return rReplace;
         }
 
-        public BinaryTreeNode<T> Find(T value)
+        public AVLTreeNode<T> Find(T value)
         {
-            BinaryTreeNode<T> Aux = Root;
+            AVLTreeNode<T> Aux = Root;
             while (Aux.Value.CompareTo(value) != 0)
             {
                 if (value.CompareTo(Aux.Value) < 0)
@@ -290,13 +278,9 @@ namespace EstructurasDeDatos
             return Root == null;
         }
 
-        public bool IsDegenerate()
-        {
-            if (Root == null)
-                return false;
+        #endregion
 
-            return Root.IsDegenerate();
-        }
+        #region ABBmethods
 
         public bool IsBalanced()
         {
@@ -306,29 +290,17 @@ namespace EstructurasDeDatos
             return IsBalanced(Root);
         }
 
-        private int AbsoluteValue(int Minuendo, int Sustraendo)
-        {
-            if ((Minuendo - Sustraendo) < 0)
-            {
-                return (Minuendo - Sustraendo) * -1;
-            }
-            else
-            {
-                return (Minuendo - Sustraendo);
-            }
-        }
-
-        public bool IsBalanced(BinaryTreeNode<T> Node)
+        public bool IsBalanced(AVLTreeNode<T> Node)
         {
             bool Valor;
             if (Node.Left == null && Node.Right != null)
             {
-                Valor = this.IsBalanced(Node.Right) && (AbsoluteValue(0, GetHeight(Node.Right)) <= 1);
+                Valor = this.IsBalanced(Node.Right) && (Math.Abs(0 - GetHeight(Node.Right)) <= 1);
                 return Valor;
             }
             else if (Node.Right == null && Node.Left != null)
             {
-                Valor = this.IsBalanced(Node.Left) && (AbsoluteValue(GetHeight(Node.Left), 0) <= 1);
+                Valor = this.IsBalanced(Node.Left) && (Math.Abs(GetHeight(Node.Left) - 0) <= 1);
                 return Valor;
             }
             else if (Node.Left == null && Node.Right == null)
@@ -337,21 +309,112 @@ namespace EstructurasDeDatos
             }
             else
             {
-                Valor = this.IsBalanced(Node.Left) && this.IsBalanced(Node.Right) && (AbsoluteValue(GetHeight(Node.Left), GetHeight(Node.Right)) <= 1);
+                Valor = this.IsBalanced(Node.Left) && this.IsBalanced(Node.Right) && (Math.Abs(GetHeight(Node.Left) - GetHeight(Node.Right)) <= 1);
                 return Valor;
             }
         }
 
-        public BinaryTreeNode<T> FindUnbalancedNode()
+        #endregion
+
+        #region BalanceMethods
+
+        public AVLTreeNode<T> InsertBalance(AVLTreeNode<T> Node)
+        {
+            int Balance = GetBalance(Node);
+
+            if (Balance > 1 && GetBalance(Node.Left) == 1)
+            {
+                Node.Left = LeftRotation(Node.Left);
+                return RightRotation(Node);
+            }
+            if (Balance < -1 && GetBalance(Node.Right) == -1)
+            {
+                Node.Right = RightRotation(Node.Right);
+                return LeftRotation(Node);
+            }
+            if (Balance > 1)
+            {
+                return LeftRotation(Node);
+            }
+            if (Balance < -1)
+            {
+                return RightRotation(Node);
+            }
+
+            return Node;
+        }
+
+        public AVLTreeNode<T> DeleteBalance(AVLTreeNode<T> Node)
+        {
+            int Balance = GetBalance(Node);
+
+            if (Balance > 1 && GetBalance(Node.Left) >= 0)
+            {
+                return RightRotation(Node);
+            }
+            if (Balance > 1 && GetBalance(Node.Left) < 0)
+            {
+                Node.Left = LeftRotation(Node.Left);
+                return RightRotation(Node);
+            }
+            if (Balance < -1 && GetBalance(Node.Right) <= 0)
+            {
+                return LeftRotation(Node);
+            }
+            if (Balance < -1 && GetBalance(Node.Right) <= 0)
+            {
+                return LeftRotation(Node);
+            }
+            if (Balance < -1 && GetBalance(Node.Right) > 0)
+            {
+                Node.Right = RightRotation(Node.Right);
+                return LeftRotation(Node);
+            }
+
+            return Node;
+        } 
+
+        private AVLTreeNode<T> RightRotation(AVLTreeNode<T> Node)
+        {
+            AVLTreeNode<T> NewRoot = Node.Left;
+            AVLTreeNode<T> Tree2 = NewRoot.Right;
+
+            NewRoot.Right = Node;
+            Node.Left = Tree2;
+
+            return NewRoot;
+        }
+
+        private AVLTreeNode<T> LeftRotation(AVLTreeNode<T> Node)
+        {
+            AVLTreeNode<T> NewRoot = Node.Right;
+            AVLTreeNode<T> Tree2 = NewRoot.Left;
+
+            NewRoot.Left = Node;
+            Node.Right = Tree2;
+
+            return NewRoot;
+        }
+
+        public int GetBalance(AVLTreeNode<T> Node)
+        {
+            if (Node == null)
+            {
+                return 0;
+            }
+            return GetHeight(Node.Left) - GetHeight(Node.Right);
+        }
+
+        private AVLTreeNode<T> FindUnbalancedNode()
         {
             return FindUnbalancedNode(Root);
         }
 
-        private BinaryTreeNode<T> FindUnbalancedNode(BinaryTreeNode<T> Node)
+        private AVLTreeNode<T> FindUnbalancedNode(AVLTreeNode<T> Node)
         {
             if (Node != null)
             {
-                int Balance = AbsoluteValue(GetHeight(Node.Left), GetHeight(Node.Right));
+                int Balance = Math.Abs(GetHeight(Node.Left) - GetHeight(Node.Right));
                 if (Balance <= 1)
                 {
                     if (Node.Left != null)
@@ -375,7 +438,7 @@ namespace EstructurasDeDatos
 
         }
 
-        public int GetHeight(BinaryTreeNode<T> Node)
+        public int GetHeight(AVLTreeNode<T> Node)
         {
             if (Node == null)
             {
@@ -397,7 +460,11 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void InOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        #endregion
+
+        #region Orders
+
+        private void InOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -407,7 +474,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void PostOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        private void PostOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -417,7 +484,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private void PreOrder(BinaryTreeNode<T> Root, ref List<T> Elements)
+        private void PreOrder(AVLTreeNode<T> Root, ref List<T> Elements)
         {
             if (Root != null)
             {
@@ -444,5 +511,8 @@ namespace EstructurasDeDatos
             }
             return Elements;
         }
+
+        #endregion
+        
     }
 }
