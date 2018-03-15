@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace EstructurasDeDatos
 {
@@ -376,12 +377,18 @@ namespace EstructurasDeDatos
 
         private AVLTreeNode<T> RightRotation(AVLTreeNode<T> Node)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
             AVLTreeNode<T> NewRoot = Node.Left;
             AVLTreeNode<T> Tree2 = NewRoot.Right;
 
             NewRoot.Right = Node;
             Node.Left = Tree2;
 
+            stopwatch.Stop();
+            
+            
             return NewRoot;
         }
 

@@ -12,6 +12,11 @@ namespace Laboratorio_3.Controllers
 {
     public class PartidoController : Controller
     {
+        public ActionResult Home()
+        {
+            return View();
+        }
+
         // GET: Partido
         public ActionResult IndexPartido()
         {

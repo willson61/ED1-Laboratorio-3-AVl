@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<h2>Home</h2>
+
+<div class="jumbotron">
+    <h1>FIFA DATA MANAGER Russia Soccer WorldCup 2018</h1>
+    <p class="lead">This is a proyect based on the manipulation of information using AVL Trees</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>List of matches by Date</h2>
+        <p>
+            Do you want to see a list of matches listed by their dates?
+        </p>
+        <p>@Html.ActionLink("Go", "IndexPartidoFecha", "Partido")</p>
+    </div>
+    <div class="col-md-4">
+        <h2>List of Int</h2>
+        <p>Do you want to see a list of matches listed by their number?</p>
+        <p>@Html.ActionLink("Go", "IndexPartido", "Partido")</p>
+    </div>
+</div>

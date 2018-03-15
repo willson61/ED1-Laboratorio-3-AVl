@@ -199,6 +199,7 @@
     <Content Include="Views\Partido\CreateNoPartido.cshtml" />
     <Content Include="Views\Partido\DeleteFechaPartido.cshtml" />
     <Content Include="Views\Partido\DeletePartido.cshtml" />
+    <Content Include="Views\Partido\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

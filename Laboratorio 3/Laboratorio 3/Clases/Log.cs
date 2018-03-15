@@ -24,6 +24,7 @@ namespace Laboratorio_3.Clases
             w.WriteLine("-------------------------------");
             w.Close();
         }
+
         public static void CleanLog()
         {
             System.IO.File.Delete(@"C:\Users\Williams Monterroso\source\repos\EstructuraDatosI\Log.txt");
