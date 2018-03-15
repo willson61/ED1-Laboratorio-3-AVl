@@ -10,14 +10,14 @@ namespace Laboratorio_3.Clases
 {
     public class JsonConverter<T>
     {
-        public BinaryTreeNode<T> datosJson(Stream ruta)
+        public AVLTreeNode<T> datosJson(Stream ruta)
         {
             try
             {
-                BinaryTreeNode<T> info;
+                AVLTreeNode<T> info;
                 StreamReader lector1 = new StreamReader(ruta);
                 string infoJson = lector1.ReadToEnd();
-                info = JsonConvert.DeserializeObject<BinaryTreeNode<T>>(infoJson);
+                info = JsonConvert.DeserializeObject<AVLTreeNode<T>>(infoJson);
                 lector1.Close();
                 return info;
             }

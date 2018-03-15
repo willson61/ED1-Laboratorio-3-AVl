@@ -144,6 +144,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Clases\Data.cs" />
     <Compile Include="Clases\JsonConverter.cs" />
+    <Compile Include="Clases\Log.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartidoController.cs" />
     <Compile Include="Global.asax.cs">

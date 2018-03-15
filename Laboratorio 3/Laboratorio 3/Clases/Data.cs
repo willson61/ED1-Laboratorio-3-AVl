@@ -8,7 +8,7 @@ using Laboratorio_3.Models;
 namespace Laboratorio_3.Clases
 {
     public class Data
-    {
+    {       
         private static Data instance = null;
 
         public static Data Instance

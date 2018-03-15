@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EstructurasDeDatos;
 using Laboratorio_3.Clases;
 using Laboratorio_3.Models;
+using EstructurasDeDatos;
+using System.Diagnostics;
 
 namespace Laboratorio_3.Controllers
 {
@@ -33,9 +34,20 @@ namespace Laboratorio_3.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             try
             {
-                // TODO: Add insert logic here
+                Data.Instance.partidosAVL.Insert(new Partido
+                {
+                    noPartido = Convert.ToInt16(collection["Número de partido"]),
+                    fechaPartido = Convert.ToDateTime(collection["Fecha de partido"]),
+                    Grupo = collection["Grupo"],
+                    pais1 = collection["Pais No. 1"],
+                    pais2 = collection["Pais No. 2"],
+                    estadio = collection["Estadio"]
+                });
+                Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
 
                 return RedirectToAction("Index");
             }
@@ -70,7 +82,8 @@ namespace Laboratorio_3.Controllers
         // GET: Partido/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var partido = Data.Instance.listaPartidos.Find(x => x.noPartido == id);
+            return View(partido);
         }
 
         // POST: Partido/Delete/5
@@ -80,7 +93,9 @@ namespace Laboratorio_3.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                Partido partido = Data.Instance.listaPartidos.Find(x => x.noPartido == id);
+                Data.Instance.partidosAVL.Eliminar(partido);
+                Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
                 return RedirectToAction("Index");
             }
             catch
@@ -107,7 +122,7 @@ namespace Laboratorio_3.Controllers
                 if (file.ContentLength > 0)
                 {
                     var json = new JsonConverter<Partido>();
-                    BinaryTreeNode<Partido> raiz = json.datosJson(file.InputStream);
+                    AVLTreeNode<Partido> raiz = json.datosJson(file.InputStream);
                     temp.Root = raiz;
                     tempL = temp.Orders("PreOrder");
                     foreach(Partido p in tempL)
