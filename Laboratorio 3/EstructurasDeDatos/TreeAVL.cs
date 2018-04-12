@@ -12,19 +12,17 @@ namespace EstructurasDeDatos
         public T Value { get; set; }
         public AVLTreeNode<T> Left { get; set; }
         public AVLTreeNode<T> Right { get; set; }
-        public int LeftSize { get; set; }
-        public int RightSize { get; set; }
+        public AVLTreeNode<T> Padre { get; set; }
 
-        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, int leftSize, int rightSize)
+        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, AVLTreeNode<T> padre)
         {
             Value = value;
             Left = left;
             Right = right;
-            LeftSize = leftSize;
-            RightSize = rightSize;
+            Padre = padre;
         }
 
-        public AVLTreeNode(T value) : this(value, null, null, 0, 0) { }
+        public AVLTreeNode(T value) : this(value, null, null, null) { }
 
         public AVLTreeNode() { }
 
@@ -83,7 +81,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private AVLTreeNode<T> InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
+        private void InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
         {
             if (nPadre != null)
             {
@@ -91,12 +89,20 @@ namespace EstructurasDeDatos
                 {
                     if (nPadre.Left == null)
                     {
+                        nNuevo.Padre = nPadre;
                         nPadre.Left = nNuevo;
-                        return InsertBalance(nPadre);
+                        if (nPadre == Root)
+                        {
+                            InsertBalance(nPadre);
+                        }
+                        else
+                        {
+                            InsertBalance(nPadre.Padre);
+                        }
                     }
                     else
                     {
-                        return InsertarHijo(nNuevo, nPadre.Left);
+                        InsertarHijo(nNuevo, nPadre.Left);
                     }
                 }
                 else
@@ -105,17 +111,26 @@ namespace EstructurasDeDatos
                     {
                         if (nPadre.Right == null)
                         {
+                            nNuevo.Padre = nPadre;
                             nPadre.Right = nNuevo;
-                            return InsertBalance(nPadre);
+                            if (nPadre == Root)
+                            {
+                                InsertBalance(nPadre);
+                            }
+                            InsertBalance(nPadre.Padre);
                         }
                         else
                         {
-                            return InsertarHijo(nNuevo, nPadre.Right);
+                            InsertarHijo(nNuevo, nPadre.Right);
                         }
                     }
                 }
             }
-            return nPadre;
+            else
+            {
+                nPadre = nNuevo;
+                InsertBalance(nPadre.Padre);
+            }
         }
 
         private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)

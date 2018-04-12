@@ -14,6 +14,7 @@ namespace Laboratorio_3.Controllers
     {
         public ActionResult Home()
         {
+            Log.beginLog();
             return View();
         }
 
@@ -98,12 +99,18 @@ namespace Laboratorio_3.Controllers
             {
                 Data.Instance.partidosAVL.Insert(new Partido
                 {
+<<<<<<< HEAD
                     noPartido = Convert.ToInt16(collection["Número de partido"]),
                     fechaPartido =  (collection["Fecha de partido"]),
                     grupo = collection["Grupo"],
+=======
+                    noPartido = Convert.ToInt16(collection["noPartido"]),
+                    fechaPartido =  (collection["fechaPartido"]),
+                    Grupo = collection["Grupo"],
+>>>>>>> AVL2
                     pais1 = collection["pais1"],
                     pais2 = collection["pais2"],
-                    estadio = collection["Estadio"]
+                    estadio = collection["estadio"]
                 });
                 Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
 
