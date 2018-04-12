@@ -31,7 +31,10 @@ namespace Laboratorio_3.Models
             }
             else
             {
-                return fechaPartido.CompareTo(obj);
+                DateTime d1 = DateTime.Parse(fechaPartido);
+                Partido p = (Partido)obj;
+                DateTime d2 = DateTime.Parse(p.fechaPartido);
+                return d1.CompareTo(d2);
             }
         }
         public int compareByNoPartido(object obj)
