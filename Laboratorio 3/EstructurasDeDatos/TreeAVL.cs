@@ -12,19 +12,17 @@ namespace EstructurasDeDatos
         public T Value { get; set; }
         public AVLTreeNode<T> Left { get; set; }
         public AVLTreeNode<T> Right { get; set; }
-        public int LeftSize { get; set; }
-        public int RightSize { get; set; }
+        public AVLTreeNode<T> Padre { get; set; }
 
-        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, int leftSize, int rightSize)
+        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, AVLTreeNode<T> padre)
         {
             Value = value;
             Left = left;
             Right = right;
-            LeftSize = leftSize;
-            RightSize = rightSize;
+            Padre = padre;
         }
 
-        public AVLTreeNode(T value) : this(value, null, null, 0, 0) { }
+        public AVLTreeNode(T value) : this(value, null, null, null) { }
 
         public AVLTreeNode() { }
 
@@ -91,8 +89,16 @@ namespace EstructurasDeDatos
                 {
                     if (nPadre.Left == null)
                     {
+                        nNuevo.Padre = nPadre;
                         nPadre.Left = nNuevo;
-                        InsertBalance(nPadre);
+                        if (nPadre == Root)
+                        {
+                            InsertBalance(nPadre);
+                        }
+                        else
+                        {
+                            InsertBalance(nPadre.Padre);
+                        }
                     }
                     else
                     {
@@ -105,8 +111,13 @@ namespace EstructurasDeDatos
                     {
                         if (nPadre.Right == null)
                         {
+                            nNuevo.Padre = nPadre;
                             nPadre.Right = nNuevo;
-                            InsertBalance(nPadre);
+                            if (nPadre == Root)
+                            {
+                                InsertBalance(nPadre);
+                            }
+                            InsertBalance(nPadre.Padre);
                         }
                         else
                         {
@@ -118,7 +129,7 @@ namespace EstructurasDeDatos
             else
             {
                 nPadre = nNuevo;
-                InsertBalance(nPadre);
+                InsertBalance(nPadre.Padre);
             }
         }
 
