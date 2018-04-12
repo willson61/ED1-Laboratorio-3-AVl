@@ -14,7 +14,7 @@ namespace Laboratorio_3.Models
         [Display(Name = "Fecha del Partido")]
         public string fechaPartido { get; set; }
         [Display(Name = "Grupo")]
-        public string Grupo { get; set; }
+        public string grupo { get; set; }
         [Display(Name = "Pais No. 1")]
         public string pais1 { get; set; }
         [Display(Name = "Pais No. 2")]
@@ -26,7 +26,8 @@ namespace Laboratorio_3.Models
         {
             if(Data.Instance.partidosAVL.dateOrNumber == true)
             {
-                return noPartido.CompareTo(obj);
+                Partido p = (Partido)obj;
+                return noPartido.CompareTo(p.noPartido);
             }
             else
             {

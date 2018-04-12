@@ -20,12 +20,14 @@ namespace Laboratorio_3.Controllers
         // GET: Partido
         public ActionResult IndexPartido()
         {
+            Data.Instance.partidosAVL.dateOrNumber = true;
             return View(Data.Instance.listaPartidos);
         }
 
         // GET: Partido
         public ActionResult IndexPartidoFecha()
         {
+            Data.Instance.partidosAVL.dateOrNumber = false;
             return View(Data.Instance.listaPartidos);
         }
 
@@ -61,7 +63,7 @@ namespace Laboratorio_3.Controllers
                 {
                     noPartido = Convert.ToInt16(collection["Número de partido"]),
                     fechaPartido =  (collection["Fecha de partido"]),
-                    Grupo = collection["Grupo"],
+                    grupo = collection["Grupo"],
                     pais1 = collection["pais1"],
                     pais2 = collection["pais2"],
                     estadio = collection["Estadio"]
@@ -98,7 +100,7 @@ namespace Laboratorio_3.Controllers
                 {
                     noPartido = Convert.ToInt16(collection["Número de partido"]),
                     fechaPartido =  (collection["Fecha de partido"]),
-                    Grupo = collection["Grupo"],
+                    grupo = collection["Grupo"],
                     pais1 = collection["pais1"],
                     pais2 = collection["pais2"],
                     estadio = collection["Estadio"]
