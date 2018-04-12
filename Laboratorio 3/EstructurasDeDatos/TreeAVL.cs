@@ -338,12 +338,12 @@ namespace EstructurasDeDatos
         {
             int Balance = GetBalance(Node);
 
-            if (Balance > 1 && GetBalance(Node.Left) == 1)
+            if (Balance > 1 && GetBalance(Node.Left) == -1)
             {
                 Node.Left = LeftRotation(Node.Left);
                 return RightRotation(Node);
             }
-            if (Balance < -1 && GetBalance(Node.Right) == -1)
+            if (Balance < -1 && GetBalance(Node.Right) == 1)
             {
                 Node.Right = RightRotation(Node.Right);
                 return LeftRotation(Node);
