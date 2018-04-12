@@ -39,7 +39,7 @@ namespace Laboratorio_3.Controllers
         // GET: Partido/Details/5
         public ActionResult DetailsPartidoFecha(int id)
         {
-            var partido = Data.Instance.listaPartidos.Where(x => x.fechaPartido == Convert.ToDateTime(id)).FirstOrDefault();
+            var partido = Data.Instance.listaPartidos.Where(x => x.fechaPartido ==  Convert.ToString(id)).FirstOrDefault();
             return View(partido);
         }
 
@@ -60,10 +60,10 @@ namespace Laboratorio_3.Controllers
                 Data.Instance.partidosAVL.Insert(new Partido
                 {
                     noPartido = Convert.ToInt16(collection["Número de partido"]),
-                    fechaPartido = Convert.ToDateTime(collection["Fecha de partido"]),
+                    fechaPartido =  (collection["Fecha de partido"]),
                     Grupo = collection["Grupo"],
-                    pais1 = collection["Pais No. 1"],
-                    pais2 = collection["Pais No. 2"],
+                    pais1 = collection["pais1"],
+                    pais2 = collection["pais2"],
                     estadio = collection["Estadio"]
                 });
                 Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
@@ -97,10 +97,10 @@ namespace Laboratorio_3.Controllers
                 Data.Instance.partidosAVL.Insert(new Partido
                 {
                     noPartido = Convert.ToInt16(collection["Número de partido"]),
-                    fechaPartido = Convert.ToDateTime(collection["Fecha de partido"]),
+                    fechaPartido =  (collection["Fecha de partido"]),
                     Grupo = collection["Grupo"],
-                    pais1 = collection["Pais No. 1"],
-                    pais2 = collection["Pais No. 2"],
+                    pais1 = collection["pais1"],
+                    pais2 = collection["pais2"],
                     estadio = collection["Estadio"]
                 });
                 Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
@@ -120,7 +120,7 @@ namespace Laboratorio_3.Controllers
         // GET: Partido/Delete/5
         public ActionResult DeleteFechaPartido(int id)
         {
-            var partido = Data.Instance.listaPartidos.Find(x => x.fechaPartido == Convert.ToDateTime(id));
+            var partido = Data.Instance.listaPartidos.Find(x => x.fechaPartido ==  Convert.ToString(id));
             return View(partido);
         }
 
@@ -133,7 +133,7 @@ namespace Laboratorio_3.Controllers
             try
             {
                 // TODO: Add delete logic here
-                Partido partido = Data.Instance.listaPartidos.Find(x => x.fechaPartido == Convert.ToDateTime(id));
+                Partido partido = Data.Instance.listaPartidos.Find(x => x.fechaPartido ==  Convert.ToString(id));
                 Data.Instance.partidosAVL.Eliminar(partido);
                 Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
 

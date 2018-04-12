@@ -12,7 +12,7 @@ namespace Laboratorio_3.Models
         [Key]
         public int noPartido { get; set; }
         [Display(Name = "Fecha del Partido")]
-        public DateTime fechaPartido { get; set; }
+        public string fechaPartido { get; set; }
         [Display(Name = "Grupo")]
         public string Grupo { get; set; }
         [Display(Name = "Pais No. 1")]
