@@ -26,7 +26,8 @@ namespace Laboratorio_3.Models
         {
             if(Data.Instance.partidosAVL.dateOrNumber == true)
             {
-                return noPartido.CompareTo(obj);
+                Partido p = (Partido)obj;
+                return noPartido.CompareTo(p.noPartido);
             }
             else
             {

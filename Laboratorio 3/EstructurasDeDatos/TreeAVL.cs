@@ -83,7 +83,7 @@ namespace EstructurasDeDatos
             }
         }
 
-        private AVLTreeNode<T> InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
+        private void InsertarHijo(AVLTreeNode<T> nNuevo, AVLTreeNode<T> nPadre)
         {
             if (nPadre != null)
             {
@@ -92,11 +92,11 @@ namespace EstructurasDeDatos
                     if (nPadre.Left == null)
                     {
                         nPadre.Left = nNuevo;
-                        return InsertBalance(nPadre);
+                        InsertBalance(nPadre);
                     }
                     else
                     {
-                        return InsertarHijo(nNuevo, nPadre.Left);
+                        InsertarHijo(nNuevo, nPadre.Left);
                     }
                 }
                 else
@@ -106,16 +106,20 @@ namespace EstructurasDeDatos
                         if (nPadre.Right == null)
                         {
                             nPadre.Right = nNuevo;
-                            return InsertBalance(nPadre);
+                            InsertBalance(nPadre);
                         }
                         else
                         {
-                            return InsertarHijo(nNuevo, nPadre.Right);
+                            InsertarHijo(nNuevo, nPadre.Right);
                         }
                     }
                 }
             }
-            return nPadre;
+            else
+            {
+                nPadre = nNuevo;
+                InsertBalance(nPadre);
+            }
         }
 
         private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)

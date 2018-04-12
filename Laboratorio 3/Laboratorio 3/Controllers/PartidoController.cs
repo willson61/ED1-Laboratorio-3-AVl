@@ -14,18 +14,21 @@ namespace Laboratorio_3.Controllers
     {
         public ActionResult Home()
         {
+            Log.beginLog();
             return View();
         }
 
         // GET: Partido
         public ActionResult IndexPartido()
         {
+            Data.Instance.partidosAVL.dateOrNumber = true;
             return View(Data.Instance.listaPartidos);
         }
 
         // GET: Partido
         public ActionResult IndexPartidoFecha()
         {
+            Data.Instance.partidosAVL.dateOrNumber = false;
             return View(Data.Instance.listaPartidos);
         }
 
@@ -96,12 +99,12 @@ namespace Laboratorio_3.Controllers
             {
                 Data.Instance.partidosAVL.Insert(new Partido
                 {
-                    noPartido = Convert.ToInt16(collection["Número de partido"]),
-                    fechaPartido =  (collection["Fecha de partido"]),
+                    noPartido = Convert.ToInt16(collection["noPartido"]),
+                    fechaPartido =  (collection["fechaPartido"]),
                     Grupo = collection["Grupo"],
                     pais1 = collection["pais1"],
                     pais2 = collection["pais2"],
-                    estadio = collection["Estadio"]
+                    estadio = collection["estadio"]
                 });
                 Data.Instance.listaPartidos = Data.Instance.partidosAVL.Orders("InOrder");
 
