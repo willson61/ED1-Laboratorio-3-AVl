@@ -10,8 +10,8 @@ namespace EstructurasDeDatos
     public class AVLTreeNode<T>
     {
         public T Value { get; set; }
-        public AVLTreeNode<T> Left { get; set; }
-        public AVLTreeNode<T> Right { get; set; }
+        public AVLTreeNode<T> Left;
+        public AVLTreeNode<T> Right;
         public AVLTreeNode<T> Padre { get; set; }
 
         public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right, AVLTreeNode<T> padre)
@@ -62,7 +62,7 @@ namespace EstructurasDeDatos
     {
         public bool dateOrNumber;
 
-        public AVLTreeNode<T> Root { get; set; }
+        public AVLTreeNode<T> Root;
 
         public TreeAVL() { Root = null; }
 
@@ -107,7 +107,6 @@ namespace EstructurasDeDatos
                 }
                 else
                 {
-
                     if (nPadre.Right == null)
                     {
                         nNuevo.Padre = nPadre;
@@ -121,8 +120,7 @@ namespace EstructurasDeDatos
                     else
                     {
                         InsertarHijo(nNuevo, nPadre.Right);
-                    }
-                    
+                    }        
                 }
             }
             else
@@ -141,74 +139,69 @@ namespace EstructurasDeDatos
         private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)
         {
             AVLTreeNode<T> Aux = Node;
-
-            while (Aux.Left != null)
+            if (Aux != null)
             {
-                Aux = Aux.Left;
+                while (Aux.Left != null)
+                {
+                    Aux = Aux.Left;
+                }
             }
 
             return Aux;
         }
 
-        public AVLTreeNode<T> Eliminar(T valor)
+
+        public void Eliminar(T valor)
         {
-            AVLTreeNode<T> root = Root;
-            AVLTreeNode<T> nPadre = Root;
-
-            while (root.Value.CompareTo(valor) != 0)
+            if (Root != null)
             {
-                nPadre = root;
-                if (valor.CompareTo(root.Value) <= 0)
+                if (valor.CompareTo(Root.Value) == 0)
                 {
-                    root = root.Left;
+                    Root = null;
                 }
                 else
                 {
-                    root = root.Left;
+                    Eliminar(valor, ref Root);
                 }
-
-                if (root == null)
-                    return null;
             }
+        }
 
-            if (root.Left == null || root.Right == null)
+        public void Eliminar(T valor, ref AVLTreeNode<T> nElimina)
+        {
+            if (valor.CompareTo(nElimina.Value) == 0)
             {
-                AVLTreeNode<T> Aux;
-                if (root.Left != null)
+                AVLTreeNode<T> Aux = MinNode(nElimina.Right);
+                if (nElimina.Right == null && nElimina.Left == null)
                 {
-                    Aux = root.Left;
+                    nElimina = null;
                 }
-                else
+                else if (nElimina.Left == null && nElimina.Right != null)
                 {
-                    Aux = root.Right;
+                    nElimina.Value = Aux.Value;
+                    MinNode(nElimina.Right).Padre.Left = null;
                 }
-
-                if (Aux == null) //Sin hijos
+                else if (nElimina.Left != null && nElimina.Right == null)
                 {
-                    Aux = root;
-                    root = null;
-                }
-                else            //Un solo hijo
-                {
-                    root = Aux;
+                    nElimina.Value = nElimina.Left.Value;
+                    nElimina.Left = null;
                 }
             }
             else
             {
-                // El más a la izquierda del subarbol derecho
-                AVLTreeNode<T> Aux = MinNode(root.Right);
-                root = Aux;
-                root.Right = Eliminar(root.Right.Value);
+                if (valor.CompareTo(nElimina.Value) <= 0)
+                {
+                    Eliminar(valor, ref nElimina.Left);
+                }
+                else
+                {
+                    Eliminar(valor, ref nElimina.Right);
+                }
             }
-
-            if (root == null)
+            AVLTreeNode<T> Unbalanced = FindUnbalancedNode();
+            if (Unbalanced != null)
             {
-                return root;
+                InsertBalance(Unbalanced);
             }
-
-            DeleteBalance(root);
-
-            return root;
         }
 
         public AVLTreeNode<T> Edit(T valor)
