@@ -34,6 +34,10 @@ namespace Laboratorio_3.Models
                 DateTime d1 = DateTime.Parse(fechaPartido);
                 Partido p = (Partido)obj;
                 DateTime d2 = DateTime.Parse(p.fechaPartido);
+                if (d1.CompareTo(d2) == 0)
+                {
+                    return noPartido.CompareTo(p.noPartido);
+                }
                 return d1.CompareTo(d2);
             }
         }

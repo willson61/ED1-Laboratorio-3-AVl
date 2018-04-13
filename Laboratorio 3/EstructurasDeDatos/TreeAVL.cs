@@ -355,11 +355,11 @@ namespace EstructurasDeDatos
             }
             else if (Balance > 1)
             {
-                Node = LeftRotation(Node);
+                Node = RightRotation(Node);
             }
             else if (Balance < -1)
             {
-                Node = RightRotation(Node);
+                Node = LeftRotation(Node);
             }
         }
 
