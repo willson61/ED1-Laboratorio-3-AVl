@@ -130,6 +130,12 @@ namespace EstructurasDeDatos
                 nPadre = nNuevo;
                 InsertBalance(nPadre.Padre);
             }
+
+            AVLTreeNode<T> Unbalanced = FindUnbalancedNode();
+            if (Unbalanced != null)
+            {
+                InsertBalance(Unbalanced);
+            }
         }
 
         private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)
@@ -390,10 +396,10 @@ namespace EstructurasDeDatos
         private AVLTreeNode<T> RightRotation(AVLTreeNode<T> Node)
         {   
             AVLTreeNode<T> NewRoot = Node.Left;
+            Node.Left = NewRoot.Right;
             NewRoot.Padre = Node.Padre;
             NewRoot.Right = Node;
             Node.Padre = NewRoot;
-            Node.Left = null;
 
 
             if (NewRoot.Padre == null)
@@ -413,9 +419,9 @@ namespace EstructurasDeDatos
             AVLTreeNode<T> NewRoot = Node.Right;
 
             NewRoot.Padre = Node.Padre;
+            Node.Right = NewRoot.Left;
             NewRoot.Left = Node;
             Node.Padre = NewRoot;
-            Node.Right = null;
 
 
             if (NewRoot.Padre == null)
