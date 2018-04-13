@@ -1,0 +1,67 @@
+{
+      "value": {
+        "noPartido": 12,
+        "fechaPartido": '2018-02-01T13:20:00.000Z',
+        "grupo": 'E',
+        "pais1":'Guatemala',
+        "pais2":'Salvador',
+        "estadio":'Las Charcas'
+      },
+      "left": {
+        "value": {
+        "noPartido": 1,
+        "fechaPartido": '2018-03-02T14:30:00.000Z',
+        "grupo":'B',
+        "pais1":'Brazil',
+        "pais2":'Colombia',
+        "estadio":'Maracana'
+      },
+        "left": null,
+        "right": null
+      },
+      "right": {
+        "value": {
+        "noPartido": 4,
+        "fechaPartido": '2018-04-05T13:00:00.000Z',
+        "grupo":'I',
+        "pais1":'Estados Unidos',
+        "pais2":'Peru',
+        "estadio":'Monumental'
+        },
+        "left": {
+          "value": {
+            "noPartido": 5,
+            "fechaPartido": '2018-01-15T10:30:00.000Z',
+            "grupo":'H',
+            "pais1":'Canada',
+            "pais2":'Mexico',
+            "estadio":'Bc Place'
+          },
+          "left": {
+            "value": {
+              "noPartido": 8,
+              "fechaPartido": '2018-03-15T15:00:00.000Z',
+              "grupo":'G',
+              "pais1":'Uruguay',
+              "pais2":'Argentina',
+              "estadio":'Centenario'
+            },
+            "left": {
+              "value": {
+                "noPartido": 7,
+                "fechaPartido": '2018-02-02T00:00:00.000Z',
+                "grupo":'F',
+                "pais1":'Colombia',
+                "pais2":'Chile',
+                "estadio":'General Santander'
+              },
+              "left": null,
+              "right": null
+            },
+            "right": null
+          },
+          "right": null
+        },
+        "right": null
+      }
+}
