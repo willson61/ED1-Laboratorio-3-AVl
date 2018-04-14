@@ -93,11 +93,11 @@ namespace EstructurasDeDatos
                         nPadre.Left = nNuevo;
                         if (nPadre == Root)
                         {
-                            InsertBalance(nPadre);
+                            Balance(nPadre);
                         }
                         else
                         {
-                            InsertBalance(nPadre.Padre);
+                            Balance(nPadre.Padre);
                         }
                     }
                     else
@@ -113,9 +113,9 @@ namespace EstructurasDeDatos
                         nPadre.Right = nNuevo;
                         if (nPadre == Root)
                         {
-                            InsertBalance(nPadre);
+                            Balance(nPadre);
                         }
-                        InsertBalance(nPadre.Padre);
+                        Balance(nPadre.Padre);
                     }
                     else
                     {
@@ -126,13 +126,13 @@ namespace EstructurasDeDatos
             else
             {
                 nPadre = nNuevo;
-                InsertBalance(nPadre.Padre);
+                Balance(nPadre.Padre);
             }
 
             AVLTreeNode<T> Unbalanced = FindUnbalancedNode();
             if (Unbalanced != null)
             {
-                InsertBalance(Unbalanced);
+                Balance(Unbalanced);
             }
         }
 
@@ -154,7 +154,14 @@ namespace EstructurasDeDatos
             {
                 if (valor.CompareTo(Root.Value) == 0)
                 {
-                    Root = null;
+                    Root.Value = MinNode(Root.Right).Value;
+                    MinNode(Root.Right).Padre.Left = null;
+
+                    AVLTreeNode<T> Unbalanced = FindUnbalancedNode();
+                    if (Unbalanced != null)
+                    {
+                        Balance(Unbalanced);
+                    }
                 }
                 else
                 {
@@ -167,20 +174,31 @@ namespace EstructurasDeDatos
         {
             if (valor.CompareTo(nElimina.Value) == 0)
             {
-                AVLTreeNode<T> Aux = MinNode(nElimina.Right);
+                AVLTreeNode<T> Aux = new AVLTreeNode<T>();
+                if (nElimina.Right != null)
+                {
+                    Aux = MinNode(nElimina.Right);
+                }
                 if (nElimina.Right == null && nElimina.Left == null)
                 {
                     nElimina = null;
                 }
                 else if (nElimina.Left == null && nElimina.Right != null)
                 {
-                    nElimina.Value = Aux.Value;
-                    MinNode(nElimina.Right).Padre.Left = null;
+                    Aux.Padre = nElimina.Padre;
+                    nElimina = Aux;                   
                 }
                 else if (nElimina.Left != null && nElimina.Right == null)
                 {
-                    nElimina.Value = nElimina.Left.Value;
-                    nElimina.Left = null;
+                    Aux.Padre = nElimina.Padre;
+                    nElimina = Aux;
+                }
+                else if (nElimina.Left != null && nElimina.Right != null)
+                {
+                    Aux.Padre = nElimina.Padre;
+                    Aux.Left = nElimina.Left;
+                    Aux.Right = nElimina.Right.Right;
+                    nElimina = Aux;
                 }
             }
             else
@@ -197,7 +215,7 @@ namespace EstructurasDeDatos
             AVLTreeNode<T> Unbalanced = FindUnbalancedNode();
             if (Unbalanced != null)
             {
-                InsertBalance(Unbalanced);
+                Balance(Unbalanced);
             }
         }
 
@@ -329,7 +347,7 @@ namespace EstructurasDeDatos
 
         #region BalanceMethods
 
-        public AVLTreeNode<T> InsertBalance(AVLTreeNode<T> Node)
+        public AVLTreeNode<T> Balance(AVLTreeNode<T> Node)
         {
             int Balance = GetBalance(Node);
 
