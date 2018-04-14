@@ -120,7 +120,7 @@ namespace EstructurasDeDatos
                     else
                     {
                         InsertarHijo(nNuevo, nPadre.Right);
-                    }        
+                    }
                 }
             }
             else
@@ -139,17 +139,14 @@ namespace EstructurasDeDatos
         private AVLTreeNode<T> MinNode(AVLTreeNode<T> Node)
         {
             AVLTreeNode<T> Aux = Node;
-            if (Aux != null)
+
+            while (Aux.Left != null)
             {
-                while (Aux.Left != null)
-                {
-                    Aux = Aux.Left;
-                }
+                Aux = Aux.Left;
             }
 
             return Aux;
         }
-
 
         public void Eliminar(T valor)
         {
@@ -332,28 +329,30 @@ namespace EstructurasDeDatos
 
         #region BalanceMethods
 
-        public void InsertBalance(AVLTreeNode<T> Node)
+        public AVLTreeNode<T> InsertBalance(AVLTreeNode<T> Node)
         {
             int Balance = GetBalance(Node);
 
             if (Balance > 1 && GetBalance(Node.Left) == -1)
             {
                 Node.Left = LeftRotation(Node.Left);
-                Node = RightRotation(Node);
+                return RightRotation(Node);
             }
             else if (Balance < -1 && GetBalance(Node.Right) == 1)
             {
                 Node.Right = RightRotation(Node.Right);
-                Node = LeftRotation(Node);
+                return LeftRotation(Node);
             }
             else if (Balance > 1)
             {
-                Node = RightRotation(Node);
+                return RightRotation(Node);
             }
             else if (Balance < -1)
             {
-                Node = LeftRotation(Node);
+                return LeftRotation(Node);
             }
+
+            return Node;
         }
 
         public AVLTreeNode<T> DeleteBalance(AVLTreeNode<T> Node)
@@ -384,15 +383,20 @@ namespace EstructurasDeDatos
             }
 
             return Node;
-        } 
+        }
 
         private AVLTreeNode<T> RightRotation(AVLTreeNode<T> Node)
-        {   
+        {
             AVLTreeNode<T> NewRoot = Node.Left;
             Node.Left = NewRoot.Right;
             NewRoot.Padre = Node.Padre;
             NewRoot.Right = Node;
             Node.Padre = NewRoot;
+            if (Node.Left != null)
+            {
+                Node.Left.Padre = Node;
+
+            }
 
 
             if (NewRoot.Padre == null)
@@ -415,7 +419,10 @@ namespace EstructurasDeDatos
             Node.Right = NewRoot.Left;
             NewRoot.Left = Node;
             Node.Padre = NewRoot;
-
+            if (Node.Right != null)
+            {
+                Node.Right.Padre = Node;
+            }
 
             if (NewRoot.Padre == null)
             {
@@ -546,6 +553,6 @@ namespace EstructurasDeDatos
         }
 
         #endregion
-        
+
     }
 }
